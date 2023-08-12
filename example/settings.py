@@ -73,17 +73,17 @@ WSGI_APPLICATION = 'example.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+#DATABASES = {
 
         'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',  # Nombre de tu base de datos
-        'USER': 'myuser',  # Usuario de la base de datos
-        'PASSWORD': '1234',  # Contraseña del usuario
-        'HOST': 'db',  # Nombre del servicio del contenedor de la base de datos en Docker Compose
-        'PORT': '5432',  # Puerto por defecto de PostgreSQL
-    }
-
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'mydb',  # Nombre de tu base de datos
+#        'USER': 'myuser',  # Usuario de la base de datos
+#        'PASSWORD': '1234',  # Contraseña del usuario
+#        'HOST': 'db',  # Nombre del servicio del contenedor de la base de datos en Docker Compose
+#        'PORT': '5432',  # Puerto por defecto de PostgreSQL
+#    }
+#
 
 }
 

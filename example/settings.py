@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'example.wsgi.application'
 #        'PASSWORD': '1234',  # Contraseña del usuario
 #        'HOST': 'db',  # Nombre del servicio del contenedor de la base de datos en Docker Compose
 #        'PORT': '5432',  # Puerto por defecto de PostgreSQL
-#    }
+    }
 #
 
 }

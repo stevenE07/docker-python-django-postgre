@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polls'
 ]
 
 MIDDLEWARE = [
@@ -73,18 +74,17 @@ WSGI_APPLICATION = 'example.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#DATABASES = {
 
-        'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'mydb',  # Nombre de tu base de datos
-#        'USER': 'myuser',  # Usuario de la base de datos
-#        'PASSWORD': '1234',  # Contraseña del usuario
-#        'HOST': 'db',  # Nombre del servicio del contenedor de la base de datos en Docker Compose
-#        'PORT': '5432',  # Puerto por defecto de PostgreSQL
-#    }
-#
-
+# django_project/settings.py
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('POSTGRES_NAME'),
+    'USER': os.environ.get('POSTGRES_USER'),
+    'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+    'HOST': 'db',
+    'PORT': 5432, #default port you don't need to mention in docker-compose
+    }
 }
 
 

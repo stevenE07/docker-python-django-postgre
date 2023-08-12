@@ -1,17 +1,17 @@
-# Usa una imagen base de Python
-FROM python:3.11
+# Pull base image
+FROM python:3.10.2-slim-bullseye
 
-# Directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Set environment variables
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Copia el contenido de tu proyecto al contenedor
-COPY . /app/
+# Set work directory
+WORKDIR /code
 
-# Instala las dependencias de Python
+# Install dependencies
+COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-# Expone el puerto en el que se ejecutará tu aplicación Django
-EXPOSE 8000
-
-# Comando para ejecutar el servidor de desarrollo de Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Copy project
+COPY . .

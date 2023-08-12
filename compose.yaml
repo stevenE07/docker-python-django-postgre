@@ -1,20 +1,22 @@
-version: '1'
-name: django-python-postgre
+version: "3.9"
+
 services:
   web:
-    image: django
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python /app/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - db
-      
-  db:
-    image: postgres:15
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: 1234
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234

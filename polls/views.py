@@ -6,4 +6,3 @@ def index(request):
     persona = Persona(nombre="Juan", apellido="Perez", edad=20, sexo="M")
     persona.save()
     return HttpResponse("Hello, world. You're at the polls index.")
-

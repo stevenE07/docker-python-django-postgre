@@ -2,6 +2,7 @@ Descarguen docker hub
 ejectuar:
 
 docker build -t django .
+
 docker compose up
 
 Las carpetas que quedaron fueron generadas por este tutorial de django

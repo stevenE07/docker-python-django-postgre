@@ -21,6 +21,9 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
+    volumes:
+      - .:/app
+      - ./backupDB.sql:/docker-entrypoint-initdb.d/backup.sql
     ports:
       - "5432:5432"
   pgadmin:

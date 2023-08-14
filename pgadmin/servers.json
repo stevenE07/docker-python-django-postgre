@@ -5,6 +5,7 @@
         "Group": "docker_postgres_group",
         "Host": "base_postgres",
         "Port": 5432,
+        "Password": "postgres",
         "MaintenanceDB": "postgres",
         "Username": "postgres",
         "SSLMode": "prefer"

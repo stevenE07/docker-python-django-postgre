@@ -3,6 +3,6 @@ from polls.models import Persona
 # Create your views here.
 def index(request):
     #insertar un elemento en la base de datos
-    persona = Persona(nombre="Juan", apellido="Perez", edad=20, sexo="M", email='mail@prueba.com')
+    persona = Persona(nombre="lucio", apellido="Perez", edad=20, sexo="M", email='lucio@prueba.com')
     persona.save()
     return HttpResponse("Hello, world. You're at the polls index.")

@@ -16,3 +16,5 @@ ya deberian de poder acceder a la ruta:
 localhost:8000/pulls (web creada)
 localhost:5050/browser/ (pgAdmin con la base ya asociada)
 
+### COMO GUARDAR LA BASE DE DATOS ###
+docker-compose exec db pg_dump -h db -U postgres postgres > backupDB.sql

@@ -27,5 +27,7 @@ control de versiones asi que no sería de mucho problema en este caso.
 Lo que si hay que controlar es que tengamos la misma versión de node instalada, ya que angular cli requiere de dicha instalacion.
 
 Una vez instalado node:
+
 npm install -g @angular/cli  -> instala angular cli
+
 ng serve -> levanta el servidor local, se accede por localhost:4200

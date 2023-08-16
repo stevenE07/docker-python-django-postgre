@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="home-links-container login-container col-xs-4 col-sm-8 col-md-8 col-lg-5  text-center">
+        
+        <div class="btn-home-container" >         
+            <img src="../../../assets/logo UdelaR.jpg" class="logo"/>
+            <h2 class="form-signin-heading">Accede a tu cuenta</h2>
+            <form class="form-signin" >
+                <input type="name" name="a" id="inputEmail" class="form-control" [(ngModel)]="username" placeholder="Email" >
+                <input name="b" type="password" id="inputPassword" class="form-control" [(ngModel)]="password" placeholder="Contraseña" >
+                
+                <button class="btn btn-lg btn-primary btn-block" (click)="authUser()"type="submit"> Ingresar</button>
+            </form>
+
+        </div>
+    </div>
+</div>

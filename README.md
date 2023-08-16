@@ -29,5 +29,6 @@ Lo que si hay que controlar es que tengamos la misma versión de node instalada,
 Una vez instalado node:
 
 -npm install -g @angular/cli  -> instala angular cli
-
+-ir a la carpeta del proyecto correspondiente a angular
+-ejecutar npm install 
 -ng serve -> levanta el servidor local, se accede por localhost:4200

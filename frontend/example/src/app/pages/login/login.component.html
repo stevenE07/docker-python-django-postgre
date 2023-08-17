@@ -10,7 +10,8 @@
                 
                 <button class="btn btn-lg btn-primary btn-block" (click)="authUser()"type="submit"> Ingresar</button>
             </form>
-
+            <div class="alert alert-danger" *ngIf="mostrarDialog">
+                <strong>¡Error!</strong> {{mensaje}}
         </div>
     </div>
 </div>

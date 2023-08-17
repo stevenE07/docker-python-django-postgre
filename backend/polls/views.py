@@ -6,3 +6,6 @@ def index(request):
     persona = Persona(nombre="lucio", apellido="Perez", edad=20, sexo="M", email='lucio@prueba.com')
     persona.save()
     return HttpResponse("Hello, world. You're at the polls index.")
+
+def authenticate(request):
+   return HttpResponse({ "message": "Hello, world. You're at the polls index."}); 

@@ -32,5 +32,13 @@ export class LoginComponent {
       this.mostrarDialog = false;
     }, 4000);
   }
+  prueba(){ 
+    try{
+      const result = this.usuarioService.prueba().toPromise();
+    }catch{
+      this.timerDialog("error prueba");
+    }
+    
+  }
 }
 

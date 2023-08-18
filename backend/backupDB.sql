@@ -366,6 +366,7 @@ ALTER TABLE public.django_session OWNER TO postgres;
 CREATE TABLE public.polls_persona (
     id bigint NOT NULL,
     email character varying(100) NOT NULL,
+    contrasenia character varying(100) NOT NULL,
     nombre character varying(100) NOT NULL,
     apellido character varying(100) NOT NULL,
     edad integer NOT NULL,
@@ -570,25 +571,25 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 --
 
 COPY public.django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2023-08-14 12:14:10.208482+00
-2	auth	0001_initial	2023-08-14 12:14:10.255623+00
-3	admin	0001_initial	2023-08-14 12:14:10.26998+00
-4	admin	0002_logentry_remove_auto_add	2023-08-14 12:14:10.276565+00
-5	admin	0003_logentry_add_action_flag_choices	2023-08-14 12:14:10.283687+00
-6	contenttypes	0002_remove_content_type_name	2023-08-14 12:14:10.29511+00
-7	auth	0002_alter_permission_name_max_length	2023-08-14 12:14:10.301728+00
-8	auth	0003_alter_user_email_max_length	2023-08-14 12:14:10.306967+00
-9	auth	0004_alter_user_username_opts	2023-08-14 12:14:10.312117+00
-10	auth	0005_alter_user_last_login_null	2023-08-14 12:14:10.317866+00
-11	auth	0006_require_contenttypes_0002	2023-08-14 12:14:10.319477+00
-12	auth	0007_alter_validators_add_error_messages	2023-08-14 12:14:10.325373+00
-13	auth	0008_alter_user_username_max_length	2023-08-14 12:14:10.332749+00
-14	auth	0009_alter_user_last_name_max_length	2023-08-14 12:14:10.338328+00
-15	auth	0010_alter_group_name_max_length	2023-08-14 12:14:10.344509+00
-16	auth	0011_update_proxy_permissions	2023-08-14 12:14:10.350033+00
-17	auth	0012_alter_user_first_name_max_length	2023-08-14 12:14:10.355572+00
-18	polls	0001_initial	2023-08-14 12:14:10.362586+00
-19	sessions	0001_initial	2023-08-14 12:14:10.371651+00
+1	contenttypes	0001_initial	2023-08-18 20:34:44.795176+00
+2	auth	0001_initial	2023-08-18 20:34:44.838252+00
+3	admin	0001_initial	2023-08-18 20:34:44.851835+00
+4	admin	0002_logentry_remove_auto_add	2023-08-18 20:34:44.856472+00
+5	admin	0003_logentry_add_action_flag_choices	2023-08-18 20:34:44.861711+00
+6	contenttypes	0002_remove_content_type_name	2023-08-18 20:34:44.872265+00
+7	auth	0002_alter_permission_name_max_length	2023-08-18 20:34:44.877291+00
+8	auth	0003_alter_user_email_max_length	2023-08-18 20:34:44.883884+00
+9	auth	0004_alter_user_username_opts	2023-08-18 20:34:44.888593+00
+10	auth	0005_alter_user_last_login_null	2023-08-18 20:34:44.893585+00
+11	auth	0006_require_contenttypes_0002	2023-08-18 20:34:44.894892+00
+12	auth	0007_alter_validators_add_error_messages	2023-08-18 20:34:44.900771+00
+13	auth	0008_alter_user_username_max_length	2023-08-18 20:34:44.908587+00
+14	auth	0009_alter_user_last_name_max_length	2023-08-18 20:34:44.913309+00
+15	auth	0010_alter_group_name_max_length	2023-08-18 20:34:44.920016+00
+16	auth	0011_update_proxy_permissions	2023-08-18 20:34:44.924871+00
+17	auth	0012_alter_user_first_name_max_length	2023-08-18 20:34:44.930117+00
+18	polls	0001_initial	2023-08-18 20:34:44.938303+00
+19	sessions	0001_initial	2023-08-18 20:34:44.945718+00
 \.
 
 
@@ -604,11 +605,10 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 -- Data for Name: polls_persona; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.polls_persona (id, email, nombre, apellido, edad, sexo) FROM stdin;
-1	agus@prueba.com	agus	Perez	20	M
-2	juan@prueba.com	juan	Perez	20	M
-3	steven@prueba.com	steven	Perez	20	M
-5	lucio@prueba.com	lucio	Perez	20	M
+COPY public.polls_persona (id, email, contrasenia, nombre, apellido, edad, sexo) FROM stdin;
+1	agustin@prueba.com	1234	agustin	Perez	20	M
+3	steven@prueba.com	1234	steven	Perez	20	M
+4	lucio@prueba.com	1234	lucio	Perez	20	M
 \.
 
 

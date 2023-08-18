@@ -14,16 +14,19 @@ export class LoginComponent {
   mostrarDialog = false;
 
   constructor(private usuarioService:UsuarioService, private router: Router,private activatedRouter : ActivatedRoute){}
-  async authUser(){
-    try{
-      const result = await this.usuarioService.authenticate(this.username, this.password).toPromise();
-      this.router.navigate(['/inicio']); 
-      console.log(result);
-    }catch(error){
-      this.timerDialog("USUARIO INCORRECTO");
-      console.log(error);
+async authUser() {
+  this.usuarioService.authenticate(this.username, this.password).subscribe(
+    (data: any) => {
+      this.timerDialog('Correcto!!');
+    },
+    (error: any) => {
+
+      this.timerDialog('Usuario o contraseña incorrectos');
     }
-  }
+  );
+}
+
+
 
   timerDialog(mensaje : string){
     this.mostrarDialog = true;
@@ -32,13 +35,6 @@ export class LoginComponent {
       this.mostrarDialog = false;
     }, 4000);
   }
-  prueba(){ 
-    try{
-      const result = this.usuarioService.prueba().toPromise();
-    }catch{
-      this.timerDialog("error prueba");
-    }
-    
-  }
+  
 }
 

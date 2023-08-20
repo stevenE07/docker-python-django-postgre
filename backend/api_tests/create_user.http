@@ -1,0 +1,12 @@
+POST http://localhost:8000/create/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "lucio@prueba.com",
+    "email": "lucio@prueba.com",
+    "password": "passSeguro",
+    "first_name": "Lucio",
+    "last_name": "Gonzalez",
+    "edad":"22",
+    "sexo":"M"
+}

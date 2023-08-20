@@ -8,8 +8,7 @@ export class UsuarioService {
   constructor(private http : HttpClient) { }
 
   authenticate(email:string, password:string){
-    // with cors headers
-    return this.http.post(`http://127.0.0.1:8000/polls/authenticate`, {'email':email, 'password':password});
+    return this.http.post(`http://127.0.0.1:8000/login/`, {'username':email, 'password':password});
   }
 
   prueba(){

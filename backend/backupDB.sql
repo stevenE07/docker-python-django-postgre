@@ -360,42 +360,32 @@ CREATE TABLE public.django_session (
 ALTER TABLE public.django_session OWNER TO postgres;
 
 --
+-- Name: knox_authtoken; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.knox_authtoken (
+    digest character varying(128) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    user_id integer NOT NULL,
+    expiry timestamp with time zone,
+    token_key character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.knox_authtoken OWNER TO postgres;
+
+--
 -- Name: polls_persona; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.polls_persona (
-    id bigint NOT NULL,
-    email character varying(100) NOT NULL,
-    contrasenia character varying(100) NOT NULL,
-    nombre character varying(100) NOT NULL,
-    apellido character varying(100) NOT NULL,
+    user_ptr_id integer NOT NULL,
     edad integer NOT NULL,
     sexo character varying(1) NOT NULL
 );
 
 
 ALTER TABLE public.polls_persona OWNER TO postgres;
-
---
--- Name: polls_persona_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.polls_persona_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.polls_persona_id_seq OWNER TO postgres;
-
---
--- Name: polls_persona_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.polls_persona_id_seq OWNED BY public.polls_persona.id;
-
 
 --
 -- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -461,13 +451,6 @@ ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- Name: polls_persona id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.polls_persona ALTER COLUMN id SET DEFAULT nextval('public.polls_persona_id_seq'::regclass);
-
-
---
 -- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -512,10 +495,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 22	Can change session	6	change_session
 23	Can delete session	6	delete_session
 24	Can view session	6	view_session
-25	Can add persona	7	add_persona
-26	Can change persona	7	change_persona
-27	Can delete persona	7	delete_persona
-28	Can view persona	7	view_persona
+25	Can add user	7	add_persona
+26	Can change user	7	change_persona
+27	Can delete user	7	delete_persona
+28	Can view user	7	view_persona
+29	Can add auth token	8	add_authtoken
+30	Can change auth token	8	change_authtoken
+31	Can delete auth token	8	delete_authtoken
+32	Can view auth token	8	view_authtoken
 \.
 
 
@@ -563,6 +550,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 5	contenttypes	contenttype
 6	sessions	session
 7	polls	persona
+8	knox	authtoken
 \.
 
 
@@ -571,25 +559,33 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 --
 
 COPY public.django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2023-08-18 20:34:44.795176+00
-2	auth	0001_initial	2023-08-18 20:34:44.838252+00
-3	admin	0001_initial	2023-08-18 20:34:44.851835+00
-4	admin	0002_logentry_remove_auto_add	2023-08-18 20:34:44.856472+00
-5	admin	0003_logentry_add_action_flag_choices	2023-08-18 20:34:44.861711+00
-6	contenttypes	0002_remove_content_type_name	2023-08-18 20:34:44.872265+00
-7	auth	0002_alter_permission_name_max_length	2023-08-18 20:34:44.877291+00
-8	auth	0003_alter_user_email_max_length	2023-08-18 20:34:44.883884+00
-9	auth	0004_alter_user_username_opts	2023-08-18 20:34:44.888593+00
-10	auth	0005_alter_user_last_login_null	2023-08-18 20:34:44.893585+00
-11	auth	0006_require_contenttypes_0002	2023-08-18 20:34:44.894892+00
-12	auth	0007_alter_validators_add_error_messages	2023-08-18 20:34:44.900771+00
-13	auth	0008_alter_user_username_max_length	2023-08-18 20:34:44.908587+00
-14	auth	0009_alter_user_last_name_max_length	2023-08-18 20:34:44.913309+00
-15	auth	0010_alter_group_name_max_length	2023-08-18 20:34:44.920016+00
-16	auth	0011_update_proxy_permissions	2023-08-18 20:34:44.924871+00
-17	auth	0012_alter_user_first_name_max_length	2023-08-18 20:34:44.930117+00
-18	polls	0001_initial	2023-08-18 20:34:44.938303+00
-19	sessions	0001_initial	2023-08-18 20:34:44.945718+00
+1	contenttypes	0001_initial	2023-08-20 03:07:22.430783+00
+2	auth	0001_initial	2023-08-20 03:07:22.481299+00
+3	admin	0001_initial	2023-08-20 03:07:22.497313+00
+4	admin	0002_logentry_remove_auto_add	2023-08-20 03:07:22.50329+00
+5	admin	0003_logentry_add_action_flag_choices	2023-08-20 03:07:22.509727+00
+6	contenttypes	0002_remove_content_type_name	2023-08-20 03:07:22.52405+00
+7	auth	0002_alter_permission_name_max_length	2023-08-20 03:07:22.533491+00
+8	auth	0003_alter_user_email_max_length	2023-08-20 03:07:22.541457+00
+9	auth	0004_alter_user_username_opts	2023-08-20 03:07:22.548994+00
+10	auth	0005_alter_user_last_login_null	2023-08-20 03:07:22.556554+00
+11	auth	0006_require_contenttypes_0002	2023-08-20 03:07:22.558799+00
+12	auth	0007_alter_validators_add_error_messages	2023-08-20 03:07:22.566381+00
+13	auth	0008_alter_user_username_max_length	2023-08-20 03:07:22.576783+00
+14	auth	0009_alter_user_last_name_max_length	2023-08-20 03:07:22.584512+00
+15	auth	0010_alter_group_name_max_length	2023-08-20 03:07:22.595466+00
+16	auth	0011_update_proxy_permissions	2023-08-20 03:07:22.603622+00
+17	auth	0012_alter_user_first_name_max_length	2023-08-20 03:07:22.610272+00
+18	knox	0001_initial	2023-08-20 03:07:22.625526+00
+19	knox	0002_auto_20150916_1425	2023-08-20 03:07:22.644554+00
+20	knox	0003_auto_20150916_1526	2023-08-20 03:07:22.658484+00
+21	knox	0004_authtoken_expires	2023-08-20 03:07:22.665784+00
+22	knox	0005_authtoken_token_key	2023-08-20 03:07:22.677867+00
+23	knox	0006_auto_20160818_0932	2023-08-20 03:07:22.694003+00
+24	knox	0007_auto_20190111_0542	2023-08-20 03:07:22.703244+00
+25	knox	0008_remove_authtoken_salt	2023-08-20 03:07:22.713461+00
+26	polls	0001_initial	2023-08-20 03:07:22.728807+00
+27	sessions	0001_initial	2023-08-20 03:07:22.740774+00
 \.
 
 
@@ -602,13 +598,18 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 
 
 --
+-- Data for Name: knox_authtoken; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.knox_authtoken (digest, created, user_id, expiry, token_key) FROM stdin;
+\.
+
+
+--
 -- Data for Name: polls_persona; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.polls_persona (id, email, contrasenia, nombre, apellido, edad, sexo) FROM stdin;
-1	agustin@prueba.com	1234	agustin	Perez	20	M
-3	steven@prueba.com	1234	steven	Perez	20	M
-4	lucio@prueba.com	1234	lucio	Perez	20	M
+COPY public.polls_persona (user_ptr_id, edad, sexo) FROM stdin;
 \.
 
 
@@ -630,7 +631,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 28, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 32, true);
 
 
 --
@@ -665,21 +666,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 7, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 8, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 19, true);
-
-
---
--- Name: polls_persona_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.polls_persona_id_seq', 5, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 27, true);
 
 
 --
@@ -819,11 +813,11 @@ ALTER TABLE ONLY public.django_session
 
 
 --
--- Name: polls_persona polls_persona_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: knox_authtoken knox_authtoken_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.polls_persona
-    ADD CONSTRAINT polls_persona_email_key UNIQUE (email);
+ALTER TABLE ONLY public.knox_authtoken
+    ADD CONSTRAINT knox_authtoken_pkey PRIMARY KEY (digest);
 
 
 --
@@ -831,7 +825,7 @@ ALTER TABLE ONLY public.polls_persona
 --
 
 ALTER TABLE ONLY public.polls_persona
-    ADD CONSTRAINT polls_persona_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT polls_persona_pkey PRIMARY KEY (user_ptr_id);
 
 
 --
@@ -926,10 +920,31 @@ CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session U
 
 
 --
--- Name: polls_persona_email_7aaf4462_like; Type: INDEX; Schema: public; Owner: postgres
+-- Name: knox_authtoken_digest_188c7e77_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX polls_persona_email_7aaf4462_like ON public.polls_persona USING btree (email varchar_pattern_ops);
+CREATE INDEX knox_authtoken_digest_188c7e77_like ON public.knox_authtoken USING btree (digest varchar_pattern_ops);
+
+
+--
+-- Name: knox_authtoken_token_key_8f4f7d47; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX knox_authtoken_token_key_8f4f7d47 ON public.knox_authtoken USING btree (token_key);
+
+
+--
+-- Name: knox_authtoken_token_key_8f4f7d47_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX knox_authtoken_token_key_8f4f7d47_like ON public.knox_authtoken USING btree (token_key varchar_pattern_ops);
+
+
+--
+-- Name: knox_authtoken_user_id_e5a5d899; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX knox_authtoken_user_id_e5a5d899 ON public.knox_authtoken USING btree (user_id);
 
 
 --
@@ -1002,6 +1017,22 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: knox_authtoken knox_authtoken_user_id_e5a5d899_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knox_authtoken
+    ADD CONSTRAINT knox_authtoken_user_id_e5a5d899_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: polls_persona polls_persona_user_ptr_id_9fc62d58_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.polls_persona
+    ADD CONSTRAINT polls_persona_user_ptr_id_9fc62d58_fk_auth_user_id FOREIGN KEY (user_ptr_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

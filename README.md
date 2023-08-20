@@ -1,6 +1,9 @@
 Descarguen docker hub
 ejectuar:
 
+Iniciar docker en wsl2:
+    sudo service docker start
+
 docker build -t django .
 
 docker compose up

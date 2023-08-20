@@ -1,33 +1,42 @@
-import json
-from django.http import HttpResponse, HttpRequest
-from polls.models import Persona
-from django.views.decorators.csrf import csrf_exempt
+# django imports
+from django.contrib.auth import login
 
-# Create your views here.
-def index(request):
-    #insertar un elemento en la base de datos
-    persona = Persona(nombre="lucio", apellido="Perez", edad=20, sexo="M", email='lucio@prueba.com', contrasenia='1234')
-    persona.save()
-    return HttpResponse("Hello, world. You're at the polls index.")
+# rest_framework imports
+from rest_framework import generics, permissions
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 
-@csrf_exempt
-def authenticate(request):
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
-        print(json_data)
-        
-        headers = {
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "*",
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+# knox imports
+from knox.views import LoginView as KnoxLoginView
 
-        try:
-            persona = Persona.objects.get(email__contains=json_data['email'])
-            json_response = str(persona)
-            return HttpResponse({}, status=200, headers=headers)
-        except Persona.DoesNotExist:
-            return HttpResponse("Person not found", status=404, headers=headers)
+# local apps import
+from .serializers import PersonaSerializer, AuthSerializer
 
-    return HttpResponse("Invalid request method", status=405)
+
+class CreateUserView(generics.CreateAPIView):
+    # Create user API view
+    serializer_class = PersonaSerializer
+    permission_classes = (permissions.AllowAny,)
+
+
+class LoginView(KnoxLoginView):
+    # login view extending KnoxLoginView
+    serializer_class = AuthSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = AuthTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        login(request, user)
+        return super(LoginView, self).post(request, format=None)
+
+
+class ManageUserView(generics.RetrieveUpdateAPIView):
+    """Manage the authenticated user"""
+
+    serializer_class = PersonaSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        """Retrieve and return authenticated user"""
+        return self.request.user

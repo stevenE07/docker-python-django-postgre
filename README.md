@@ -6,7 +6,7 @@ Iniciar docker en wsl2:
 
 docker build -t django .
 
-docker compose up
+docker compose up --build
 
 Si la base de datos da error:
 - docker-compose exec web python manage.py makemigrations

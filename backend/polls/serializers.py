@@ -29,6 +29,26 @@ class PersonaSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class PersonaSerializer(serializers.ModelSerializer):
+    """serializer para Persona"""
+
+    class Meta:
+        model = Persona
+        fields = (
+            "username",
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+            "edad",
+            "sexo",
+        )
+        extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
+        
+class PersonaViewSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Persona
+        fields = ['url', 'username', 'email']
 
 class AuthSerializer(serializers.Serializer):
     """serializer para el objeto de autenticacion de Persona"""
